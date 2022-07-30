@@ -11,7 +11,7 @@
     Console.WriteLine();
 }
 
-void Main()
+static void Start()
 {
     Console.ForegroundColor = ConsoleColor.White;
     Console.BackgroundColor = ConsoleColor.DarkMagenta;
@@ -63,4 +63,4 @@ void Main()
     }
 }
 
-Main();
+Start();
