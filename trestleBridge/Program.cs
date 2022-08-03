@@ -1,4 +1,7 @@
-﻿static void DisplayBanner()
+﻿using trestleBridge.Actions;
+using trestleBridge.Models;
+
+static void DisplayBanner()
 {
     // Console.Clear();
     Console.WriteLine();
@@ -15,24 +18,19 @@ static void Start()
 {
     Console.ForegroundColor = ConsoleColor.White;
     Console.BackgroundColor = ConsoleColor.DarkMagenta;
-
     Farm Trestlebridge = new Farm();
-
     while (true)
     {
         DisplayBanner();
-        Console.Clear();
         Console.WriteLine("1. Create Facility");
         Console.WriteLine("2. Purchase Animals");
         Console.WriteLine("3. Purchase Seeds");
         Console.WriteLine("4. Display Farm Status");
         Console.WriteLine("5. Exit");
         Console.WriteLine();
-
         Console.WriteLine("Choose a FARMS option");
         Console.Write("> ");
         string option = Console.ReadLine();
-
         if (option == "1")
         {
             DisplayBanner();
