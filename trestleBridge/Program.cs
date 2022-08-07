@@ -20,7 +20,8 @@ static void Start()
     Console.ForegroundColor = ConsoleColor.White;
     Console.BackgroundColor = ConsoleColor.DarkMagenta;
     Farm Trestlebridge = new Farm();
-    while (true)
+    bool runProgram = true;
+    while (runProgram)
     {
         DisplayBanner();
         Console.WriteLine("1. Create Facility");
@@ -32,32 +33,38 @@ static void Start()
         Console.WriteLine("Choose a FARMS option");
         Console.Write("> ");
         string option = Console.ReadLine();
-        if (option == "1")
+
+        switch (option)
         {
-            DisplayBanner();
-            CreateFacility.CollectInput(Trestlebridge);
-        }
-        else if (option == "2")
-        {
-            DisplayBanner();
-            PurchaseStock.CollectInput(Trestlebridge);
-        }
-        else if (option == "4")
-        {
-            DisplayBanner();
-            Console.WriteLine(Trestlebridge);
-            Console.WriteLine("\n\n\n");
-            Console.WriteLine("Press return key to go back to main menu.");
-            Console.ReadLine();
-        }
-        else if (option == "5")
-        {
-            Console.WriteLine("Today is a great day for farming");
-            break;
-        }
-        else
-        {
-            Console.WriteLine($"Invalid option: {option}");
+            case "1":
+                DisplayBanner();
+                CreateFacility.CollectInput(Trestlebridge);
+                break;
+
+            case "2":
+                DisplayBanner();
+                PurchaseStock.CollectInput(Trestlebridge);
+                break;
+
+            case "3":
+                break;
+
+            case "4":
+                DisplayBanner();
+                Console.WriteLine(Trestlebridge);
+                Console.WriteLine("\n\n\n");
+                Console.WriteLine("Press return key to go back to main menu.");
+                Console.ReadLine();
+                break;
+
+            case "5":
+                Console.WriteLine("Today is a great day for farming");
+                runProgram = false;
+                break;
+
+            default:
+                Console.WriteLine($"Invalid option: {option}");
+                break;
         }
     }
 }
