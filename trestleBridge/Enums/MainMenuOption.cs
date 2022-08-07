@@ -4,15 +4,16 @@ using trestleBridge.Extensions;
 
 namespace trestleBridge.Enums
 {
-    public enum MenuOption
+    public enum MainMenuOption
     {
+        Invalid = 0,
         [Description("Create Facility")]
-        CreateFacility = 1,
+        CreateFacility,
         [Description("Purchase Animals")]
         PurchaseAnimals,
         [Description("Purchase Seeds")]
         PurchaseSeeds,
-        [Description("ProcessingOptions")]
+        [Description("Processing Options")]
         ProcessingOptions,
         [Description("Display Farm Status")]
         FarmStatus,

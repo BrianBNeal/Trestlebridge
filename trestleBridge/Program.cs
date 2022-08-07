@@ -26,25 +26,41 @@ static void Start()
     {
         DisplayBanner();
         DisplayMenuOptions();
-        
-        string? option = Console.ReadLine();
+
+        MainMenuOption option = MainMenuOption.Invalid;
+
+        try
+        {
+            option = (MainMenuOption)int.Parse(Console.ReadLine());
+        }
+        catch (Exception)
+        {
+            option = MainMenuOption.Invalid;
+        }
 
         switch (option)
         {
-            case "1":
+            case MainMenuOption.CreateFacility:
                 DisplayBanner();
                 CreateFacility.CollectInput(Trestlebridge);
                 break;
 
-            case "2":
+            case MainMenuOption.PurchaseAnimals:
                 DisplayBanner();
                 PurchaseStock.CollectInput(Trestlebridge);
                 break;
 
-            case "3":
+            case MainMenuOption.PurchaseSeeds:
+                UnderConstruction(option);
+                //PurchaseSeed.CollectInput(Trestlebridge);
                 break;
 
-            case "4":
+            case MainMenuOption.ProcessingOptions:
+                UnderConstruction(option);
+                //ProcessResources(Trestlebridge);
+                break;
+
+            case MainMenuOption.FarmStatus:
                 DisplayBanner();
                 Console.WriteLine(Trestlebridge);
                 Console.WriteLine("\n\n\n");
@@ -52,7 +68,7 @@ static void Start()
                 Console.ReadLine();
                 break;
 
-            case "5":
+            case MainMenuOption.Exit:
                 Console.WriteLine("Today is a great day for farming");
                 runProgram = false;
                 break;
@@ -64,13 +80,19 @@ static void Start()
     }
 }
 
+static void UnderConstruction(MainMenuOption option)
+{
+    Console.WriteLine($"{option.GetDescription()} is still under construction.  Check back later!");
+}
+
 static void DisplayMenuOptions()
 {
-    int counter = 1;
-    foreach (MenuOption option in Enum.GetValues(typeof(MenuOption)))
+    List<MainMenuOption> options = ((MainMenuOption[])Enum.GetValues(typeof(MainMenuOption)))
+                                                    .Where(option => option != MainMenuOption.Invalid)
+                                                    .ToList();
+    foreach (MainMenuOption option in options)
     {
         Console.WriteLine($"{(int)option}. {option.GetDescription()}");
-        counter++;
     }
     Console.WriteLine();
     Console.WriteLine("Choose a FARMS option");
