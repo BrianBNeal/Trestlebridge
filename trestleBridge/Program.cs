@@ -1,6 +1,7 @@
 ﻿using trestleBridge;
 using trestleBridge.Actions;
-using trestleBridge.Models;
+using trestleBridge.Enums;
+using trestleBridge.Extensions;
 
 static void DisplayBanner()
 {
@@ -24,15 +25,9 @@ static void Start()
     while (runProgram)
     {
         DisplayBanner();
-        Console.WriteLine("1. Create Facility");
-        Console.WriteLine("2. Purchase Animals");
-        Console.WriteLine("3. Purchase Seeds");
-        Console.WriteLine("4. Display Farm Status");
-        Console.WriteLine("5. Exit");
-        Console.WriteLine();
-        Console.WriteLine("Choose a FARMS option");
-        Console.Write("> ");
-        string option = Console.ReadLine();
+        DisplayMenuOptions();
+        
+        string? option = Console.ReadLine();
 
         switch (option)
         {
@@ -67,6 +62,19 @@ static void Start()
                 break;
         }
     }
+}
+
+static void DisplayMenuOptions()
+{
+    int counter = 1;
+    foreach (MenuOption option in Enum.GetValues(typeof(MenuOption)))
+    {
+        Console.WriteLine($"{(int)option}. {option.GetDescription()}");
+        counter++;
+    }
+    Console.WriteLine();
+    Console.WriteLine("Choose a FARMS option");
+    Console.Write("> ");
 }
 
 Start();
