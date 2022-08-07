@@ -1,6 +1,7 @@
 ﻿using trestleBridge;
 using trestleBridge.Actions;
-using trestleBridge.Models;
+using trestleBridge.Enums;
+using trestleBridge.Extensions;
 
 static void DisplayBanner()
 {
@@ -24,32 +25,42 @@ static void Start()
     while (runProgram)
     {
         DisplayBanner();
-        Console.WriteLine("1. Create Facility");
-        Console.WriteLine("2. Purchase Animals");
-        Console.WriteLine("3. Purchase Seeds");
-        Console.WriteLine("4. Display Farm Status");
-        Console.WriteLine("5. Exit");
-        Console.WriteLine();
-        Console.WriteLine("Choose a FARMS option");
-        Console.Write("> ");
-        string option = Console.ReadLine();
+        DisplayMenuOptions();
+
+        MainMenuOption option = MainMenuOption.Invalid;
+
+        try
+        {
+            option = (MainMenuOption)int.Parse(Console.ReadLine());
+        }
+        catch (Exception)
+        {
+            option = MainMenuOption.Invalid;
+        }
 
         switch (option)
         {
-            case "1":
+            case MainMenuOption.CreateFacility:
                 DisplayBanner();
                 CreateFacility.CollectInput(Trestlebridge);
                 break;
 
-            case "2":
+            case MainMenuOption.PurchaseAnimals:
                 DisplayBanner();
                 PurchaseStock.CollectInput(Trestlebridge);
                 break;
 
-            case "3":
+            case MainMenuOption.PurchaseSeeds:
+                UnderConstruction(option);
+                //PurchaseSeed.CollectInput(Trestlebridge);
                 break;
 
-            case "4":
+            case MainMenuOption.ProcessingOptions:
+                UnderConstruction(option);
+                //ProcessResources(Trestlebridge);
+                break;
+
+            case MainMenuOption.FarmStatus:
                 DisplayBanner();
                 Console.WriteLine(Trestlebridge);
                 Console.WriteLine("\n\n\n");
@@ -57,7 +68,7 @@ static void Start()
                 Console.ReadLine();
                 break;
 
-            case "5":
+            case MainMenuOption.Exit:
                 Console.WriteLine("Today is a great day for farming");
                 runProgram = false;
                 break;
@@ -67,6 +78,25 @@ static void Start()
                 break;
         }
     }
+}
+
+static void UnderConstruction(MainMenuOption option)
+{
+    Console.WriteLine($"{option.GetDescription()} is still under construction.  Check back later!");
+}
+
+static void DisplayMenuOptions()
+{
+    List<MainMenuOption> options = ((MainMenuOption[])Enum.GetValues(typeof(MainMenuOption)))
+                                                    .Where(option => option != MainMenuOption.Invalid)
+                                                    .ToList();
+    foreach (MainMenuOption option in options)
+    {
+        Console.WriteLine($"{(int)option}. {option.GetDescription()}");
+    }
+    Console.WriteLine();
+    Console.WriteLine("Choose a FARMS option");
+    Console.Write("> ");
 }
 
 Start();
