@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
+using System.Text;
 
 namespace trestleBridge.Extensions
 {
@@ -22,6 +23,27 @@ namespace trestleBridge.Extensions
                 }
             }
             return null;
+        }
+
+        public static string? DisplayAsMenu<T>(this Enum value, string promptText)
+        {
+            var retVal = new StringBuilder();
+
+            List<T> options = ((T[])Enum.GetValues(typeof(T)))
+                                                    .Where(option => (int)(Enum.Parse(typeof(T), option.ToString())) != 0) //leave out the invalid option
+                                                    .ToList();
+            var counter = 1;
+            foreach (T option in options)
+            {
+                var optionText = ((Enum)Enum.Parse(typeof(T), option?.ToString() ?? "")).GetDescription();
+                retVal.AppendLine($"{counter}. {optionText}");
+                counter++;
+            }
+            retVal.AppendLine();
+            retVal.AppendLine(promptText);
+            retVal.AppendLine("> ");
+
+            return retVal.ToString();
         }
     }
 }

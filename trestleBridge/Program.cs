@@ -5,7 +5,7 @@ using trestleBridge.Extensions;
 
 static void DisplayBanner()
 {
-    // Console.Clear();
+    Console.Clear();
     Console.WriteLine();
     Console.WriteLine(@"
         +-++-++-++-++-++-++-++-++-++-++-++-++-+
@@ -16,22 +16,28 @@ static void DisplayBanner()
     Console.WriteLine();
 }
 
-static void Start()
+static void Setup()
 {
     Console.ForegroundColor = ConsoleColor.White;
     Console.BackgroundColor = ConsoleColor.DarkMagenta;
+    Console.Clear(); //clears the blank screen to show the setup colors
+}
+
+static void Start()
+{
     Farm Trestlebridge = new Farm();
     bool runProgram = true;
     while (runProgram)
     {
-        DisplayBanner();
-        DisplayMenuOptions();
+        MainMenuOption? option = MainMenuOption.Invalid;
+        var menu = option.DisplayAsMenu<MainMenuOption>("Choose a FARMS option");
 
-        MainMenuOption option = MainMenuOption.Invalid;
+        DisplayBanner();
+        Console.Write(menu);
 
         try
         {
-            option = (MainMenuOption)int.Parse(Console.ReadLine());
+            option = (MainMenuOption)int.Parse(Console.ReadLine() ?? "");
         }
         catch (Exception)
         {
@@ -51,12 +57,14 @@ static void Start()
                 break;
 
             case MainMenuOption.PurchaseSeeds:
-                UnderConstruction(option);
+                Console.WriteLine($"{option.GetDescription()} is still under construction.  Check back later!  Press Enter to proceed...");
+                Console.ReadLine();
                 //PurchaseSeed.CollectInput(Trestlebridge);
                 break;
 
             case MainMenuOption.ProcessingOptions:
-                UnderConstruction(option);
+                Console.WriteLine($"{option.GetDescription()} is still under construction.  Check back later!  Press Enter to proceed...");
+                Console.ReadLine();
                 //ProcessResources(Trestlebridge);
                 break;
 
@@ -80,23 +88,5 @@ static void Start()
     }
 }
 
-static void UnderConstruction(MainMenuOption option)
-{
-    Console.WriteLine($"{option.GetDescription()} is still under construction.  Check back later!");
-}
-
-static void DisplayMenuOptions()
-{
-    List<MainMenuOption> options = ((MainMenuOption[])Enum.GetValues(typeof(MainMenuOption)))
-                                                    .Where(option => option != MainMenuOption.Invalid)
-                                                    .ToList();
-    foreach (MainMenuOption option in options)
-    {
-        Console.WriteLine($"{(int)option}. {option.GetDescription()}");
-    }
-    Console.WriteLine();
-    Console.WriteLine("Choose a FARMS option");
-    Console.Write("> ");
-}
-
+Setup();
 Start();
